@@ -23,3 +23,4 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	self.bubbles.push_front(new_bubble);
 	
 	new_bubble.visible = true;
+	new_bubble.start()

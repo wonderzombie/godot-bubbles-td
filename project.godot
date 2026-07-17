@@ -28,6 +28,12 @@ next_round={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="bubbles"
+2d_physics/layer_2="dog_detection"
+2d_physics/layer_3="rocks"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
