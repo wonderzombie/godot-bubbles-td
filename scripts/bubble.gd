@@ -1,6 +1,7 @@
 class_name Bubble extends Sprite2D
 
 signal pop(award: int)
+signal escaped(myself: Bubble, penalty: int)
 
 @export var speed: float = 20
 @export var value: int = 5
@@ -8,11 +9,12 @@ signal pop(award: int)
 
 var destination: Vector2;
 var movement_tween: Tween
+var escaped_tween: Tween
 var random_colors: Array[Color] = [
 	Color.RED,
 	#Color.ORANGE,
-	Color.YELLOW,
-	#Color.GREEN,
+	#Color.YELLOW,
+	Color.GREEN,
 	Color.BLUE,
 	#Color.INDIGO,
 	#Color.VIOLET,
@@ -25,29 +27,27 @@ var random_colors: Array[Color] = [
 func _ready() -> void:
 	var collision_area: Area2D = get_node("Area2D")
 	collision_area.area_entered.connect(get_hit)
-
+	
+	self.escaped_tween = create_tween()
+	escaped_tween.tween_callback(self.check_escaped)
+	escaped_tween.tween_interval(0.5)
+	escaped_tween.set_loops()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func start(color_override: Color = Color.TRANSPARENT) -> void:
-	var color = color_override
-	
-	if color_override != Color.TRANSPARENT:
-		color = color_override
-	else:
+func start() -> void:
+	if self.modulate == Color.WHITE:
 		var choice = randi() % len(random_colors)
-		color = random_colors[choice]
-	
-	self.modulate = color
-		
-	match color:
-		Color.RED:
-			num_hits = 1
-		Color.BLUE:
-			num_hits = 2
-		Color.YELLOW:
-			num_hits = 3
-	
-	self.value = 5 + (5 * (num_hits + 1))	
+		self.modulate = random_colors[choice]
+		match self.modulate:
+			Color.RED:
+				num_hits = 1
+				speed = 20
+			Color.BLUE:
+				num_hits = 2
+				speed = 20 * 0.95
+			Color.GREEN:
+				num_hits = 3
+				speed = 20 * 0.8
 	
 	self.movement_tween = create_tween()
 	self.movement_tween.tween_property(self, "position", destination, self.speed).from_current()
@@ -78,3 +78,7 @@ func get_hit(_hitter: Area2D) -> void:
 	hit.set_loops(20)
 	hit.tween_property(self, "modulate:a", 0.0, 0.5)
 	hit.tween_callback(self.queue_free)
+
+func check_escaped() -> void:
+	if self.position == destination:
+		self.escaped.emit(self, value)

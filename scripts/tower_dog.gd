@@ -6,6 +6,7 @@ var thrown_rocks: int
 var detection_area: Area2D
 
 @export var detection_radius: int = 36
+@export var attack_cooldown: float = 2.05
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -25,7 +26,7 @@ func enemy_detected(intruder: Area2D) -> void:
 func init_attack_cycle() -> void:
 	self.attack_tween = create_tween()
 	self.attack_tween.tween_callback(try_throw_rock as Callable)
-	self.attack_tween.tween_interval(2.25)
+	self.attack_tween.tween_interval(self.attack_cooldown)
 	self.attack_tween.set_loops()
 		
 func enemy_lost(lost: Area2D) -> void:	
