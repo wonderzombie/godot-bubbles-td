@@ -20,6 +20,7 @@ func _unhandled_input(event) -> void:
 			if button.get_rect().has_point(local_position):
 				if button.cost > score:
 					prints("can't afford cost", button.cost, "with score", score)
+					%Messages.add_message("tower costs %d but you have %d" % [button.cost, score], Color.RED)
 					return
 				prints(event)
 				_clicked(button)

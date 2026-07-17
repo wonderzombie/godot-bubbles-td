@@ -72,6 +72,7 @@ func _input(event) -> void:
 		
 		var path = tile_data.get_custom_data("path") as bool
 		if path:
+			%Messages.add_message("can't place tower on path", Color.RED)
 			prints("can't place tower on path at", cell_pos)
 			return
 		
