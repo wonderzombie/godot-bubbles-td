@@ -1,6 +1,7 @@
 extends Node2D
 
 var bubbles = [];
+var score = 0;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -22,5 +23,14 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	%Map.add_child(new_bubble);
 	self.bubbles.push_front(new_bubble);
 	
+	new_bubble.pop.connect(balloon_popped)
 	new_bubble.visible = true;
 	new_bubble.start()
+	
+
+func balloon_popped(award: int) -> void:
+	score += award
+	prints("score is now", score)
+	%Score.text = "SCORE: %s" % score
+	
+	

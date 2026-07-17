@@ -13,7 +13,7 @@ func _ready() -> void:
 func enemy_detected(intruder: Area2D) -> void:
 	prints("detected:", intruder)
 	targets.push_front(intruder)
-	if !current_target and !attack_tween.is_valid():
+	if !current_target:
 		init_attack_cycle()
 
 func init_attack_cycle() -> void:
@@ -27,8 +27,6 @@ func enemy_lost(escapee: Area2D) -> void:
 	self.targets.erase(escapee)
 	if escapee == self.current_target:
 		self.current_target = null
-	if self.targets == 0:
-		self.attack_tween.kill()
 		
 func try_throw_rock() -> void:
 	if len(self.targets) == 0:

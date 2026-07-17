@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cnaqjq48svhon" path="res://assets/urizen_onebit_tileset__v2d0.png" id="4_836ik"]
 [ext_resource type="Script" uid="uid://c5weh3vquiujv" path="res://scripts/tower_dog.gd" id="5_j2eim"]
 [ext_resource type="Script" uid="uid://bk24e3cquwtrr" path="res://assets/rock.gd" id="7_qdlv5"]
+[ext_resource type="FontFile" uid="uid://bw15vudvtopgt" path="res://assets/pcsenior.ttf" id="8_tkxyu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_o33de"]
 radius = 5.0
@@ -79,3 +80,14 @@ position = Vector2(294, 150)
 [node name="Camera2D" type="Camera2D" parent="Map" unique_id=749430051]
 position = Vector2(150, 150)
 zoom = Vector2(2, 2)
+
+[node name="Score" type="Label" parent="." unique_id=975444234]
+unique_name_in_owner = true
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 71.0
+offset_bottom = 25.0
+theme_override_fonts/font = ExtResource("8_tkxyu")
+theme_override_font_sizes/font_size = 12
+text = "SCORE: 0"
+vertical_alignment = 1
