@@ -64,8 +64,8 @@ func get_hit(_hitter: Area2D) -> void:
 	movement_tween.kill()
 	
 	var collision_area: Area2D = get_node("Area2D")
-	collision_area.monitorable = false
-	collision_area.monitoring = false
+	collision_area.set_deferred("monitorable", false)
+	collision_area.set_deferred("monitoring", false)
 	
 	var left = Vector2.LEFT * 1 + self.position
 	var right = Vector2.RIGHT * 1 + self.position
@@ -76,5 +76,5 @@ func get_hit(_hitter: Area2D) -> void:
 	hit.tween_property(self, "position", left, 0.05).from_current()
 	hit.tween_property(self, "position", right, 0.05).from_current()
 	hit.set_loops(20)
-	hit.tween_property(self, "modulate:a", Color.TRANSPARENT, 1)
+	hit.tween_property(self, "modulate:a", 0.0, 0.5)
 	hit.tween_callback(self.queue_free)

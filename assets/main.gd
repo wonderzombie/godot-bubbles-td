@@ -1,7 +1,7 @@
 extends Node2D
 
 var bubbles = [];
-var score = 0;
+@export var score = 0;
 var bubbles_spawned = 0;
 
 var ghost_tower: DogButton;
