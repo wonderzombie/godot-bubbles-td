@@ -4,6 +4,7 @@ signal pop(award: int)
 
 @export var speed: float = 20
 @export var value: int = 5
+@export var num_hits: int = 1
 
 var destination: Vector2;
 var movement_tween: Tween
@@ -31,7 +32,6 @@ func _ready() -> void:
 func start() -> void:
 	self.movement_tween = create_tween()
 	self.movement_tween.tween_property(self, "position", destination, self.speed).from_current()
-
 
 func get_hit(_hitter: Area2D) -> void:
 	movement_tween.kill()

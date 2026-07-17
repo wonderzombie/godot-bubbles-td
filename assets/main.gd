@@ -2,12 +2,13 @@ extends Node2D
 
 var bubbles = [];
 var score = 0;
+var bubbles_spawned = 0;
 
+var ghost_tower: DogButton;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	%Toolbar.selected.connect(selected_tower)
-
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if !event.is_action_pressed("next_round"):
@@ -25,21 +26,51 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	%Map.add_child(new_bubble);
 	self.bubbles.push_front(new_bubble);
 	
-	new_bubble.pop.connect(balloon_popped)
+	new_bubble.pop.connect(adjust_score)
 	new_bubble.visible = true;
+	bubbles_spawned += 1
+	new_bubble.name = "bubble%d" % bubbles_spawned
 	new_bubble.start()
 	
 
-func balloon_popped(award: int) -> void:
+func adjust_score(award: int) -> void:
 	score += award
 	prints("score is now", score)
 	%Score.text = "SCORE: %s" % score
 	
-	
-func selected_tower(sprite: Sprite2D) -> void:
+func selected_tower(sprite: DogButton) -> void:
 	match sprite.name:
 		"DogButton1":
-			pass
+			self.ghost_tower = sprite.duplicate()
+			self.add_child(ghost_tower)
+			self.ghost_tower.position = self.get_local_mouse_position()
 
 func _input(event) -> void:
-	pass
+	if !ghost_tower:
+		return
+
+	var map_pos = %Map.get_local_mouse_position()
+	var cell_pos = %Map.local_to_map(map_pos)
+	var tower_pos = %Map.map_to_local(cell_pos)
+	self.ghost_tower.position = tower_pos
+	
+	prints(event)
+	
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		prints("clicked:", self.ghost_tower.position)
+		
+		var new_tower = ghost_tower.scene.instantiate()
+		prints("spawning", new_tower.name, "at", tower_pos)
+		
+		%Map.add_child(new_tower)
+		new_tower.position = tower_pos
+		
+		
+		%Toolbar.last_selected = null
+		
+		adjust_score(-ghost_tower.cost)
+		ghost_tower.queue_free()
+					
+			
+
+	

@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://bbgcw17imuri8"]
+
+[ext_resource type="Texture2D" uid="uid://cnaqjq48svhon" path="res://assets/urizen_onebit_tileset__v2d0.png" id="1_6v6li"]
+[ext_resource type="Script" uid="uid://c5weh3vquiujv" path="res://scripts/tower_dog.gd" id="2_x5wxm"]
+[ext_resource type="Script" uid="uid://bk24e3cquwtrr" path="res://assets/rock.gd" id="3_wlc83"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o33de"]
+atlas = ExtResource("1_6v6li")
+region = Rect2(1, 183, 12, 12)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_a7yxg"]
+radius = 36.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_swr8m"]
+radius = 36.0
+
+[node name="Dog1" type="Sprite2D" unique_id=1369491177]
+texture = SubResource("AtlasTexture_o33de")
+script = ExtResource("2_x5wxm")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=835035222]
+collision_layer = 0
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=8695142]
+visible = false
+shape = SubResource("CircleShape2D_a7yxg")
+metadata/_edit_lock_ = true
+
+[node name="Rock" type="Polygon2D" parent="." unique_id=1922602648]
+visible = false
+scale = Vector2(0.1, 0.1)
+color = Color(0.5, 0.5, 0.5, 1)
+polygon = PackedVector2Array(-10, -10, 10, -10, 10, 10, -10, 10)
+script = ExtResource("3_wlc83")
+
+[node name="Area2D" type="Area2D" parent="Rock" unique_id=1201714817]
+collision_layer = 4
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rock/Area2D" unique_id=1932591344]
+shape = SubResource("CircleShape2D_swr8m")
+metadata/_edit_lock_ = true

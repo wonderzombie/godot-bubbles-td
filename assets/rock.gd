@@ -1,6 +1,6 @@
 extends Polygon2D
 
-var hits: int = 3
+var hits: int = 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -9,5 +9,7 @@ func _ready() -> void:
 
 func deduct_hit(_area: Area2D):
 	self.hits -= 1
-	if hits == 0:
+	prints(self.name, "hits remaining", self.hits)
+	if self.hits <= 0:
+		prints(self.name, "no more rock")
 		self.queue_free()
