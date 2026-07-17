@@ -65,23 +65,29 @@ func _input(event) -> void:
 	var tower_pos = %Map.map_to_local(cell_pos)
 	self.ghost_tower.position = tower_pos
 	
-	prints(event)
+	#prints(event)
 	
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		prints("clicked:", self.ghost_tower.position)
+		var tile_data: TileData = %Map.get_cell_tile_data(cell_pos)
 		
-		var new_tower = ghost_tower.scene.instantiate()
-		prints("spawning", new_tower.name, "at", tower_pos)
+		var path = tile_data.get_custom_data("path") as bool
+		if path:
+			prints("can't place tower on path at", cell_pos)
+			return
 		
-		%Map.add_child(new_tower)
-		new_tower.position = tower_pos
-		
-		
-		%Toolbar.last_selected = null
-		
-		adjust_score(-ghost_tower.cost)
-		ghost_tower.queue_free()
-					
+		_maybe_place_tower(tower_pos)
 			
 
+func _maybe_place_tower(tower_pos):
+	prints("clicked:", self.ghost_tower.position)
 	
+	var new_tower = ghost_tower.scene.instantiate()
+	prints("spawning", new_tower.name, "at", tower_pos)
+	
+	%Map.add_child(new_tower)
+	new_tower.position = tower_pos
+	
+	%Toolbar.last_selected = null
+	
+	adjust_score(-ghost_tower.cost)
+	ghost_tower.queue_free()
