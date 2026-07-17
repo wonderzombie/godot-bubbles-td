@@ -10,31 +10,63 @@ var destination: Vector2;
 var movement_tween: Tween
 var random_colors: Array[Color] = [
 	Color.RED,
-	Color.ORANGE,
+	#Color.ORANGE,
 	Color.YELLOW,
-	Color.GREEN,
+	#Color.GREEN,
 	Color.BLUE,
-	Color.INDIGO,
-	Color.VIOLET,
-	Color.WHITE,
-	Color.WHITE,
-	Color.WHITE,
+	#Color.INDIGO,
+	#Color.VIOLET,
+	#Color.WHITE,
+	#Color.WHITE,
+	#Color.WHITE,
 ]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	var collision_area: Area2D = get_node("Area2D")
 	collision_area.area_entered.connect(get_hit)
-	var choice = randi() % len(random_colors)
-	self.modulate = random_colors[choice]
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func start() -> void:
+func start(color_override: Color = Color.TRANSPARENT) -> void:
+	var color = color_override
+	
+	if color_override != Color.TRANSPARENT:
+		color = color_override
+	else:
+		var choice = randi() % len(random_colors)
+		color = random_colors[choice]
+	
+	self.modulate = color
+		
+	match color:
+		Color.RED:
+			num_hits = 1
+		Color.BLUE:
+			num_hits = 2
+		Color.YELLOW:
+			num_hits = 3
+	
+	self.value = 5 + (5 * (num_hits + 1))	
+	
 	self.movement_tween = create_tween()
 	self.movement_tween.tween_property(self, "position", destination, self.speed).from_current()
 
 func get_hit(_hitter: Area2D) -> void:
+	if !movement_tween:
+		return
+	
+	num_hits -= 1
+	
+	if num_hits > 0:
+		return
+	
 	movement_tween.kill()
+	
+	var collision_area: Area2D = get_node("Area2D")
+	collision_area.monitorable = false
+	collision_area.monitoring = false
+	
 	var left = Vector2.LEFT * 1 + self.position
 	var right = Vector2.RIGHT * 1 + self.position
 	
@@ -44,5 +76,5 @@ func get_hit(_hitter: Area2D) -> void:
 	hit.tween_property(self, "position", left, 0.05).from_current()
 	hit.tween_property(self, "position", right, 0.05).from_current()
 	hit.set_loops(20)
-	hit.tween_property(self, "modulate", Color.TRANSPARENT, 1)
+	hit.tween_property(self, "modulate:a", Color.TRANSPARENT, 1)
 	hit.tween_callback(self.queue_free)

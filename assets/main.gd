@@ -10,10 +10,21 @@ var ghost_tower: DogButton;
 func _ready() -> void:
 	%Toolbar.selected.connect(selected_tower)
 
+
+
 func _unhandled_key_input(event: InputEvent) -> void:
-	if !event.is_action_pressed("next_round"):
+	var color = Color.TRANSPARENT
+	if event.is_action_pressed("next_round"):
+		pass
+	elif event.is_action_pressed("first_balloon"):
+		color = Color.RED
+	elif event.is_action_pressed("second_balloon"):
+		color = Color.BLUE
+	elif event.is_action_pressed("third_balloon"):
+		color = Color.YELLOW
+	else:
 		return
-	
+		
 	var start_wp: Marker2D = %Waypoints.get_child(0);
 	var end_wp: Marker2D = %Waypoints.get_child(-1);
 	prints("start is %s and end is %s" % [start_wp, end_wp])
@@ -30,7 +41,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	new_bubble.visible = true;
 	bubbles_spawned += 1
 	new_bubble.name = "bubble%d" % bubbles_spawned
-	new_bubble.start()
+	new_bubble.start(color)
 	
 
 func adjust_score(award: int) -> void:

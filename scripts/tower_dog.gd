@@ -9,7 +9,7 @@ var detection_area: Area2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	self.detection_range = get_node("Area2D")
+	self.detection_area = get_node("Area2D")
 	detection_area.area_entered.connect(enemy_detected)
 	detection_area.area_exited.connect(enemy_lost)
 	
@@ -42,7 +42,7 @@ func try_throw_rock() -> void:
 
 	prints("throwing rock at", named(self.current_target))
 	
-	var rock: Polygon2D = get_node("Rock").duplicate()
+	var rock = get_node("Rock").duplicate()
 	self.add_child(rock)
 	rock.name = "rock%d" % thrown_rocks
 	rock.visible = true;
