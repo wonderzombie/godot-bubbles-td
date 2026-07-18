@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cnaqjq48svhon" path="res://assets/urizen_onebit_tileset__v2d0.png" id="1_6v6li"]
 [ext_resource type="Script" uid="uid://c5weh3vquiujv" path="res://scripts/tower_dog.gd" id="2_x5wxm"]
 [ext_resource type="Script" uid="uid://bk24e3cquwtrr" path="res://assets/rock.gd" id="3_wlc83"]
+[ext_resource type="Resource" uid="uid://bd3f7u5o85gv4" path="res://resources/dog_tower_i.tres" id="3_x5wxm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o33de"]
 atlas = ExtResource("1_6v6li")
@@ -17,6 +18,7 @@ radius = 36.0
 [node name="Dog1" type="Sprite2D" unique_id=1369491177]
 texture = SubResource("AtlasTexture_o33de")
 script = ExtResource("2_x5wxm")
+stats = ExtResource("3_x5wxm")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=835035222]
 collision_layer = 0

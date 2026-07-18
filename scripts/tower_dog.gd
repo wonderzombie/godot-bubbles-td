@@ -1,20 +1,27 @@
 class_name TowerDog extends Sprite2D
 
+
+@export var stats: TowerStats
+
+var detection_radius: float:
+	get(): return stats.detection_radius
+var attack_cooldown: float:
+	get(): return stats.attack_cooldown
+
+
 var current_target: Area2D
+var coll_shape: CollisionShape2D
 var attack_tween: Tween
 var thrown_rocks: int
 var detection_area: Area2D
 
-@export var detection_radius: int = 36
-@export var attack_cooldown: float = 2.05
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	self.detection_area = get_node("Area2D")
-	detection_area.area_entered.connect(enemy_detected)
-	detection_area.area_exited.connect(enemy_lost)
+	self.detection_area.area_entered.connect(enemy_detected)
+	self.detection_area.area_exited.connect(enemy_lost)
 	
-	var coll_shape: CollisionShape2D = detection_area.get_node("CollisionShape2D");
+	self.coll_shape = detection_area.get_node("CollisionShape2D");
 	if coll_shape.shape is CircleShape2D:
 		coll_shape.shape.radius = detection_radius
 	
