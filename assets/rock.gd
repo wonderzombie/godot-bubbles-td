@@ -1,4 +1,4 @@
-extends Polygon2D
+class_name Rock extends Polygon2D
 
 var hits: int = 2
 

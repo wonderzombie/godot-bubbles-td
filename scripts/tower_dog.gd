@@ -1,19 +1,21 @@
 class_name TowerDog extends Sprite2D
 
-
 @export var stats: TowerStats
 
 var detection_radius: float:
 	get(): return stats.detection_radius
 var attack_cooldown: float:
 	get(): return stats.attack_cooldown
+var rock_range: int:
+	get(): return stats.rock_range
+var hits_per_rock: int:
+	get(): return stats.hits_per_rock
 
-
-var current_target: Area2D
-var coll_shape: CollisionShape2D
 var attack_tween: Tween
 var thrown_rocks: int
 var detection_area: Area2D
+var current_target: Area2D
+var coll_shape: CollisionShape2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -50,7 +52,9 @@ func try_throw_rock() -> void:
 
 	prints("throwing rock at", named(self.current_target))
 	
-	var rock = get_node("Rock").duplicate()
+	var rock: Rock = get_node("Rock").duplicate()
+	rock.hits = self.hits_per_rock
+	
 	self.add_child(rock)
 	rock.name = "rock%d" % thrown_rocks
 	rock.visible = true;
@@ -58,7 +62,7 @@ func try_throw_rock() -> void:
 	rock.position = Vector2.ZERO
 	rock.look_at(current_target.global_position)
 
-	var target_position: Vector2 = Vector2.RIGHT.rotated(rock.rotation) * (12 * 3 * 1);
+	var target_position: Vector2 = Vector2.RIGHT.rotated(rock.rotation) * self.rock_range;
 	
 	var throw_tween = create_tween()
 	throw_tween.tween_property(rock, "position", target_position, 0.3)
