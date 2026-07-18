@@ -2,17 +2,13 @@
 
 [ext_resource type="TileSet" uid="uid://dvpvk2gylwicb" path="res://assets/urizon_onebit_tileset.tres" id="1_db5cl"]
 [ext_resource type="Script" uid="uid://dxpgff2bivi06" path="res://assets/main.gd" id="1_ujfqy"]
-[ext_resource type="Texture2D" uid="uid://sgsyu5r6hf81" path="res://assets/ball.tres" id="2_06ig3"]
-[ext_resource type="Script" uid="uid://bwbu174lcmj03" path="res://scripts/bubble.gd" id="3_2d37k"]
 [ext_resource type="PackedScene" uid="uid://bbgcw17imuri8" path="res://scenes/dog_1.tscn" id="3_fphxj"]
 [ext_resource type="Texture2D" uid="uid://cnaqjq48svhon" path="res://assets/urizen_onebit_tileset__v2d0.png" id="4_836ik"]
+[ext_resource type="PackedScene" uid="uid://dfd5pjk1c2nrc" path="res://scenes/bubble.tscn" id="4_fphxj"]
 [ext_resource type="FontFile" uid="uid://bw15vudvtopgt" path="res://assets/pcsenior.ttf" id="8_tkxyu"]
 [ext_resource type="Script" uid="uid://diw18gbqqwts6" path="res://scripts/toolbar.gd" id="9_fphxj"]
 [ext_resource type="Script" uid="uid://cfh0ri6c3dwse" path="res://scripts/messages.gd" id="10_m5usj"]
 [ext_resource type="Script" uid="uid://cblhggo6icldx" path="res://scripts/dog_button_1.gd" id="10_vqaxa"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_o33de"]
-radius = 5.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o33de"]
 atlas = ExtResource("4_836ik")
@@ -30,18 +26,9 @@ tile_set = ExtResource("1_db5cl")
 [node name="Dog1" parent="Map" unique_id=1369491177 instance=ExtResource("3_fphxj")]
 position = Vector2(90, 174)
 
-[node name="Bubble" type="Sprite2D" parent="Map" unique_id=186762047 groups=["bubbles"]]
+[node name="Bubble" parent="Map" unique_id=1816041252 instance=ExtResource("4_fphxj")]
 unique_name_in_owner = true
-visible = false
 position = Vector2(6, 150)
-texture = ExtResource("2_06ig3")
-script = ExtResource("3_2d37k")
-
-[node name="Area2D" type="Area2D" parent="Map/Bubble" unique_id=1335102153]
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Bubble/Area2D" unique_id=1796430304]
-shape = SubResource("CircleShape2D_o33de")
 
 [node name="Waypoints" type="Node2D" parent="Map" unique_id=1077440899]
 unique_name_in_owner = true
