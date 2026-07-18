@@ -1,7 +1,7 @@
 class_name Bubble extends Sprite2D
 
-signal pop(stats: BubbleStats)
-signal escaped(b: Bubble, stats: BubbleStats)
+signal pop(b: Bubble)
+signal escaped(b: Bubble)
 
 @export var stats: BubbleStats
 @export var hits_remaining: int = 1
@@ -34,11 +34,16 @@ func set_stats(s: BubbleStats) -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func start() -> void:
-	self._set_active(true)
+	self.set_active(true)
 	self.movement_tween = create_tween()
 	self.movement_tween.tween_property(self, "position", destination, self.stats.speed).from_current()
 
-func _set_active(active: bool) -> void:
+func stop() -> void:
+	self.set_active(false)
+	if self.movement_tween:
+		self.movement_tween.kill()
+
+func set_active(active: bool) -> void:
 	self.collision_area.set_deferred("monitorable", active)
 	self.collision_area.set_deferred("monitoring", active)
 	self.set_deferred("visible", active)
@@ -53,11 +58,6 @@ func get_hit(_hitter: Area2D) -> void:
 	if self.hits_remaining > 0:
 		return
 	
-	self._set_active(false)
-	movement_tween.kill()
-	self.collision_area.set_deferred("monitorable", false)
-	self.collision_area.set_deferred("monitoring", false)
-	
 	var left = Vector2.LEFT * 1 + self.position
 	var right = Vector2.RIGHT * 1 + self.position
 	
@@ -69,7 +69,6 @@ func get_hit(_hitter: Area2D) -> void:
 	hit.tween_callback(self.queue_free)
 	
 	pop.emit(self.stats)
-	
 
 func check_escaped() -> void:
 	if self.position == destination:

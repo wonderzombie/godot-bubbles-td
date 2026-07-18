@@ -4,8 +4,7 @@ extends Node2D
 @export var lives = 60
 
 var ghost_tower: DogButton
-var bubbles_spawned = 0
-
+var bubbles_spawned: int
 var score_twn: Tween
 var lives_twn: Tween
 
@@ -50,8 +49,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	new_bubble.start()
 	
 
-func handle_pop(stats: BubbleStats) -> void:
-	score += stats.value
+func handle_pop(bubble: Bubble) -> void:
+	score += bubble.stats.value
+	bubble.stop()
+	bubble.queue_free()
 	prints("score is now", score)
 	
 	%Score.text = "SCORE: %s" % score
@@ -59,11 +60,11 @@ func handle_pop(stats: BubbleStats) -> void:
 	if self.score_twn:
 		self.score_twn.kill()
 
-	if stats.value > 0:
+	if bubble.stats.value > 0:
 		%Score.modulate = Color.GREEN
 		self.score_twn = create_tween()
 		self.score_twn.tween_property(%Score, "modulate", Color.WHITE, 1)
-	elif stats.value < 0:
+	elif bubble.stats.value < 0:
 		%Score.modulate = Color.GOLD
 		self.score_twn = create_tween()
 		self.score_twn.tween_property(%Score, "modulate", Color.WHITE, 1)
@@ -73,9 +74,7 @@ func handle_escape(bubble: Bubble) -> void:
 	prints("adjust lives:", bubble.stats.value)
 	var adjusted_penalty = bubble.stats.value / 5.0
 	lives -= adjusted_penalty
-	bubble.set_process_mode(PROCESS_MODE_DISABLED)
-	bubble.visible = false
-	bubble.queue_free()
+
 	%Lives.text = "LIVES: %d" % lives
 	%Lives.modulate = Color.RED
 	
@@ -84,6 +83,9 @@ func handle_escape(bubble: Bubble) -> void:
 	
 	self.lives_twn = create_tween()
 	self.lives_twn.tween_property(%Lives, "modulate", Color.WHITE, 1)
+	
+	bubble.stop()
+	bubble.queue_free()
 
 
 func selected_tower(sprite: DogButton) -> void:
