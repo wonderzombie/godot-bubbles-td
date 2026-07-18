@@ -1,7 +1,7 @@
 extends Node2D
 
-@export var score = 0
-@export var lives = 60
+@export var score := 0
+@export var lives := 60
 
 var ghost_tower: DogButton
 var bubbles_spawned: int
@@ -71,9 +71,8 @@ func handle_pop(bubble: Bubble) -> void:
 
 
 func handle_escape(bubble: Bubble) -> void:
-	prints("adjust lives:", bubble.stats.value)
-	var adjusted_penalty = bubble.stats.value / 5.0
-	lives -= adjusted_penalty
+	prints("adjust lives:", bubble.stats.penalty)
+	lives -= bubble.stats.penalty
 
 	%Lives.text = "LIVES: %d" % lives
 	%Lives.modulate = Color.RED

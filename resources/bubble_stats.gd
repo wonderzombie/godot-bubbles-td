@@ -10,6 +10,7 @@ enum Ty {
 @export var speed: float = 20
 @export var max_hits: int = 1
 @export var value: int = 5
+@export var penalty: int = 1
 
 static var STATS = {
 	Ty.RED: load("res://resources/red_bubble.tres"),
