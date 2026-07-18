@@ -7,6 +7,6 @@ script = ExtResource("1_m32bl")
 color = Color(0, 0, 1, 1)
 speed = 19.0
 max_hits = 2
-value = 10
+value = 15
 penalty = 2
 metadata/_custom_type_script = "uid://b4yimfme2rfw8"

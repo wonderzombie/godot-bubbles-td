@@ -69,7 +69,12 @@ func try_throw_rock() -> void:
 	throw_tween.tween_callback(rock.queue_free);
 	thrown_rocks += 1
 	
-	
 func named(area: Area2D) -> String:
 	return area.get_parent().name
+	
+func _unhandled_input(event: InputEvent) -> void:
+	var mouse_over = self.get_rect().has_point(self.get_local_mouse_position())
+	var mouse_event := event as InputEventMouseButton
+	if mouse_event and mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT:
+		prints("clicked me", self)
 	

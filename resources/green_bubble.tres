@@ -7,6 +7,6 @@ script = ExtResource("1_e5t5j")
 color = Color(0, 1, 0, 1)
 speed = 16.0
 max_hits = 3
-value = 15
+value = 20
 penalty = 3
 metadata/_custom_type_script = "uid://b4yimfme2rfw8"
