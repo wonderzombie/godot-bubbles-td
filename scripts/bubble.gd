@@ -68,8 +68,8 @@ func get_hit(_hitter: Area2D) -> void:
 	hit.tween_property(self, "modulate:a", 0.0, 0.5)
 	hit.tween_callback(self.queue_free)
 	
-	pop.emit(self.stats)
+	pop.emit(self)
 
 func check_escaped() -> void:
 	if self.position == destination:
-		self.escaped.emit(self, self.stats.value)
+		self.escaped.emit(self)
