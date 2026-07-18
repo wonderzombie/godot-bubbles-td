@@ -1,72 +1,57 @@
 extends Node2D
 
-const DEFAULT_SPEED = 20
+@export var score = 0
+@export var lives = 60
 
-var bubbles_spawned = 0;
+var ghost_tower: DogButton
+var bubbles_spawned = 0
 
-@export var score = 0;
-@export var lives = 60;
-
-var ghost_tower: DogButton;
-
-var score_twn
-var lives_twn
+var score_twn: Tween
+var lives_twn: Tween
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	%Toolbar.selected.connect(selected_tower)
 	%Lives.text = "LIVES: %d" % lives
+	%Messages.text = ""
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	var color = Color.TRANSPARENT
-	var speed = DEFAULT_SPEED
-	var hits = 1
+	var stats: BubbleStats
 
 	if event.is_action_pressed("next_round"):
-		pass
+		stats = BubbleStats.STATS.values().pick_random()
 	elif event.is_action_pressed("first_balloon"):
-		color = Color.RED
-		speed = DEFAULT_SPEED
+		stats = BubbleStats.STATS.get(BubbleStats.Ty.RED)
 	elif event.is_action_pressed("second_balloon"):
-		color = Color.BLUE
-		speed = DEFAULT_SPEED * 0.95
-		hits = 2
+		stats = BubbleStats.STATS.get(BubbleStats.Ty.BLUE)
 	elif event.is_action_pressed("third_balloon"):
-		color = Color.GREEN
-		speed = DEFAULT_SPEED * 0.80
-		hits = 3
+		stats = BubbleStats.STATS.get(BubbleStats.Ty.GREEN)
 	else:
 		return
-		
-	var value = 5 + (5 * (hits + 1))
+
 	
 	var start_wp: Marker2D = %Waypoints.get_child(0);
 	var end_wp: Marker2D = %Waypoints.get_child(-1);
 	prints("start is %s and end is %s" % [start_wp, end_wp])
 	
 	var new_bubble: Bubble = %Bubble.duplicate();
-	
+	new_bubble.set_stats(stats)
+
+	%Map.add_child(new_bubble);
 	new_bubble.position = start_wp.position;
 	new_bubble.destination = end_wp.position;
-	new_bubble.speed = speed;
-	new_bubble.modulate = color;
-	new_bubble.value = value;
-	new_bubble.num_hits = hits;
 	
-	%Map.add_child(new_bubble);
+	new_bubble.pop.connect(handle_pop)
+	new_bubble.escaped.connect(handle_escape)
 	
-	new_bubble.pop.connect(adjust_score)
-	new_bubble.escaped.connect(adjust_lives)
-	
-	new_bubble.visible = true;
 	bubbles_spawned += 1
 	new_bubble.name = "bubble%d" % bubbles_spawned
 	new_bubble.start()
 	
 
-func adjust_score(value: int) -> void:
-	score += value
+func handle_pop(stats: BubbleStats) -> void:
+	score += stats.value
 	prints("score is now", score)
 	
 	%Score.text = "SCORE: %s" % score
@@ -74,18 +59,19 @@ func adjust_score(value: int) -> void:
 	if self.score_twn:
 		self.score_twn.kill()
 
-	if value > 0:
+	if stats.value > 0:
 		%Score.modulate = Color.GREEN
 		self.score_twn = create_tween()
 		self.score_twn.tween_property(%Score, "modulate", Color.WHITE, 1)
-	elif value < 0:
+	elif stats.value < 0:
 		%Score.modulate = Color.GOLD
 		self.score_twn = create_tween()
 		self.score_twn.tween_property(%Score, "modulate", Color.WHITE, 1)
 
-func adjust_lives(bubble: Bubble, value: int) -> void:
-	prints("adjust lives:", value)
-	var adjusted_penalty = value / 5
+
+func handle_escape(bubble: Bubble) -> void:
+	prints("adjust lives:", bubble.stats.value)
+	var adjusted_penalty = bubble.stats.value / 5.0
 	lives -= adjusted_penalty
 	bubble.set_process_mode(PROCESS_MODE_DISABLED)
 	bubble.visible = false
@@ -99,12 +85,14 @@ func adjust_lives(bubble: Bubble, value: int) -> void:
 	self.lives_twn = create_tween()
 	self.lives_twn.tween_property(%Lives, "modulate", Color.WHITE, 1)
 
+
 func selected_tower(sprite: DogButton) -> void:
 	match sprite.name:
 		"DogButton1":
 			self.ghost_tower = sprite.duplicate()
 			self.add_child(ghost_tower)
 			self.ghost_tower.position = self.get_local_mouse_position()
+
 
 func _input(event) -> void:
 	if !ghost_tower:
@@ -127,10 +115,15 @@ func _input(event) -> void:
 			return
 		
 		_maybe_place_tower(tower_pos)
-			
+
 
 func _maybe_place_tower(tower_pos):
 	prints("clicked:", self.ghost_tower.position)
+	
+	if self.score < ghost_tower.cost:
+		return
+	
+	self.score -= ghost_tower.cost
 	
 	var new_tower = ghost_tower.scene.instantiate()
 	prints("spawning", new_tower.name, "at", tower_pos)
@@ -140,5 +133,4 @@ func _maybe_place_tower(tower_pos):
 	
 	%Toolbar.last_selected = null
 	
-	adjust_score(-ghost_tower.cost)
 	ghost_tower.queue_free()

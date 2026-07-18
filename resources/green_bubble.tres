@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BubbleStats" format=3 uid="uid://bcl5f1hl6t5kc"]
+
+[ext_resource type="Script" uid="uid://b4yimfme2rfw8" path="res://resources/bubble_stats.gd" id="1_e5t5j"]
+
+[resource]
+script = ExtResource("1_e5t5j")
+color = Color(0, 1, 0, 1)
+speed = 16.0
+max_hits = 3
+value = 15
+metadata/_custom_type_script = "uid://b4yimfme2rfw8"

@@ -29,7 +29,6 @@ tile_set = ExtResource("1_db5cl")
 
 [node name="Dog1" parent="Map" unique_id=1369491177 instance=ExtResource("3_fphxj")]
 position = Vector2(90, 174)
-attack_speed = 2.0
 
 [node name="Bubble" type="Sprite2D" parent="Map" unique_id=186762047 groups=["bubbles"]]
 unique_name_in_owner = true
