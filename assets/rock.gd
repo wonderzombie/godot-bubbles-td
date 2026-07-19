@@ -12,4 +12,4 @@ func deduct_hit(_area: Area2D):
 	prints(self.name, "hits remaining", self.hits)
 	if self.hits <= 0:
 		prints(self.name, "no more rock")
-		self.queue_free()
+		self.call_deferred("queue_free")
