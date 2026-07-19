@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_m32bl")
 color = Color(0, 0, 1, 1)
-speed = 19.0
+speed = 35.0
 max_hits = 2
 value = 15
 penalty = 2

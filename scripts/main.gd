@@ -7,6 +7,7 @@ var ghost_tower: DogButton
 var bubbles_spawned: int
 var score_twn: Tween
 var lives_twn: Tween
+var waypoints: Array[Node]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -22,6 +23,8 @@ func _ready() -> void:
 		tower.clicked.connect(func(): _tower_clicked(tower))
 	
 	%UpgradeMenu.clicked.connect(on_upgrade_clicked)
+	
+	self.waypoints = get_tree().get_nodes_in_group(&"waypoints")
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	var stats: BubbleStats
@@ -36,30 +39,27 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		stats = BubbleStats.STATS.get(BubbleStats.Ty.GREEN)
 	else:
 		return
+	
+	# Don't bother spawning anything if no waypoints found
+	var waypoints_group = get_tree().get_nodes_in_group(&"waypoints")
+	assert(!waypoints_group.is_empty(), "waypoints group was empty!")
+	
 
-	
-	var start_wp: Marker2D = %Waypoints.get_child(0);
-	var end_wp: Marker2D = %Waypoints.get_child(-1);
-	prints("start is %s and end is %s" % [start_wp, end_wp])
-	
 	var new_bubble: Bubble = %Bubble.duplicate();
 	new_bubble.set_stats(stats)
-
 	%Map.add_child(new_bubble);
-	new_bubble.position = start_wp.position;
-	new_bubble.destination = end_wp.position;
 	
 	new_bubble.pop.connect(handle_pop)
 	new_bubble.escaped.connect(handle_escape)
 	
 	bubbles_spawned += 1
 	new_bubble.name = "bubble%d" % bubbles_spawned
-	new_bubble.start()
-	
+	new_bubble.start(self.waypoints)	
 
 func handle_pop(bubble: Bubble) -> void:
 	score += bubble.stats.value
 	bubble.stop()
+	bubble.set_active(false)
 	bubble.queue_free()
 	prints("score is now", score)
 	
@@ -93,7 +93,6 @@ func handle_escape(bubble: Bubble) -> void:
 	
 	bubble.stop()
 	bubble.queue_free()
-
 
 func selected_tower(sprite: DogButton) -> void:
 	match sprite.name:
