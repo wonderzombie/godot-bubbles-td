@@ -4,6 +4,6 @@
 
 [resource]
 script = ExtResource("1_5hwbq")
-attack_cooldown = 2.25
+attack_cooldown = 1.95
 hits_per_rock = 1
 metadata/_custom_type_script = "uid://bp0agepknailt"

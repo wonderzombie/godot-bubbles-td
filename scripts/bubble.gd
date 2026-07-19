@@ -75,6 +75,7 @@ func set_active(active: bool) -> void:
 
 func get_hit(_hitter: Area2D) -> void:
 	self.hits_remaining -= 1
+	prints("! hits remaining", self.hits_remaining)
 	if self.hits_remaining > 0:
 		return
 	
