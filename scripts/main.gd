@@ -13,7 +13,15 @@ func _ready() -> void:
 	%Toolbar.selected.connect(selected_tower)
 	%Lives.text = "LIVES: %d" % lives
 	%Messages.text = ""
-
+	
+	for node in get_tree().get_nodes_in_group(&"towers"):
+		var tower := node as TowerDog
+		if !tower:
+			continue
+		
+		tower.clicked.connect(func(): _tower_clicked(tower))
+	
+	%UpgradeMenu.clicked.connect(on_upgrade_clicked)
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	var stats: BubbleStats
@@ -126,12 +134,29 @@ func _maybe_place_tower(tower_pos):
 	
 	self.score -= ghost_tower.cost
 	
-	var new_tower = ghost_tower.scene.instantiate()
+	var new_tower: TowerDog = ghost_tower.scene.instantiate()
 	prints("spawning", new_tower.name, "at", tower_pos)
 	
 	%Map.add_child(new_tower)
 	new_tower.position = tower_pos
-	
+	new_tower.clicked.connect(func(): _tower_clicked(new_tower))
+
 	%Toolbar.last_selected = null
 	
 	ghost_tower.queue_free()
+
+func _tower_clicked(tower: TowerDog) -> void:
+	prints("tower clicked:", tower)
+	%UpgradeMenu.position = tower.global_position + Vector2.UP * 8 + Vector2.RIGHT * 8
+	%UpgradeMenu.visible = !%UpgradeMenu.visible
+	
+func on_upgrade_clicked(upgrade_row: UpgradeRow) -> void:
+	prints("upgrade clicked", upgrade_row)
+	if score < upgrade_row.cost:
+		prints("and rejected")
+		%Messages.add_message("can't afford %d" % upgrade_row.cost, Color.RED)
+		%UpgradeMenu.upgrade_rejected(upgrade_row)
+	
+	prints("and approved")
+	%UpgradeMenu.upgrade_approved(upgrade_row)
+		

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cp6djy27u12fk"]
+
+[ext_resource type="Texture2D" uid="uid://cnaqjq48svhon" path="res://assets/urizen_onebit_tileset__v2d0.png" id="1_vd32k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7yxg"]
+atlas = ExtResource("1_vd32k")
+region = Rect2(1028, 495, 25, 12)
+
+[node name="Button1" type="Button" unique_id=292954975]
+icon = SubResource("AtlasTexture_a7yxg")

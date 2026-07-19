@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://b8hv1l7b2mfbl"]
+
+[ext_resource type="Script" uid="uid://bfoxnws8rx443" path="res://scripts/upgrade_row.gd" id="1_4fih0"]
+[ext_resource type="FontFile" uid="uid://bw15vudvtopgt" path="res://assets/pcsenior.ttf" id="1_bdpfv"]
+[ext_resource type="Theme" uid="uid://crd5wtwf6s18e" path="res://resources/ui_theme.tres" id="2_rehqi"]
+
+[node name="UpgradeRow" type="HBoxContainer" unique_id=2095775879]
+custom_maximum_size = Vector2(-1, 12)
+offset_right = 120.0
+offset_bottom = 12.0
+theme = ExtResource("2_rehqi")
+script = ExtResource("1_4fih0")
+
+[node name="CheckBox" type="CheckBox" parent="." unique_id=1551049964]
+custom_maximum_size = Vector2(-1, 12)
+layout_mode = 2
+text = "upgrade+"
+alignment = 2
+
+[node name="Cost" type="Label" parent="." unique_id=1369005056]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_bdpfv")
+theme_override_font_sizes/font_size = 8
+text = "$10"

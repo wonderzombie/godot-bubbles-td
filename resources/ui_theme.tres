@@ -1,0 +1,16 @@
+[gd_resource type="Theme" format=3 uid="uid://crd5wtwf6s18e"]
+
+[ext_resource type="FontFile" uid="uid://bw15vudvtopgt" path="res://assets/pcsenior.ttf" id="1_cviax"]
+[ext_resource type="Texture2D" uid="uid://d14d6arnu8yit" path="res://resources/green_check.tres" id="1_qosx5"]
+[ext_resource type="Texture2D" uid="uid://cgi4xxlbafr3j" path="res://resources/unchecked.tres" id="2_m7jai"]
+
+[resource]
+default_font = ExtResource("1_cviax")
+default_font_size = 8
+CheckBox/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+CheckBox/colors/font_disabled_color = Color(0.88, 0.88, 0.88, 1)
+CheckBox/colors/icon_disabled_color = Color(1, 1, 1, 1)
+CheckBox/constants/check_v_offset = 2
+CheckBox/icons/checked = ExtResource("1_qosx5")
+CheckBox/icons/checked_disabled = ExtResource("1_qosx5")
+CheckBox/icons/unchecked = ExtResource("2_m7jai")
