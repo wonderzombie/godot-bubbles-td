@@ -2,7 +2,7 @@ extends Control
 
 signal clicked(row: UpgradeRow)
 
-@onready var rows = get_node(^"VBoxContainer").get_children()
+@onready var rows: Array = get_node(^"VBoxContainer").get_children()
 @onready var checkbox: CheckBox = get_node("^CheckBox")
 
 # Called when the node enters the scene tree for the first time.
