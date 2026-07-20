@@ -2,8 +2,8 @@ class_name TowerDog extends Sprite2D
 
 signal clicked
 
-@export var timer: Timer
 @export var stats: TowerStats
+@export var upgrades: TowerUpgradesList
 
 var detection_radius: float:
 	get(): return stats.detection_radius
@@ -20,6 +20,7 @@ var thrown_rocks: int
 var detection_area: Area2D
 var current_target: Area2D
 var coll_shape: CollisionShape2D
+var timer: Timer
 
 func _ready() -> void:
 	self.detection_area = get_node("Area2D")
@@ -86,6 +87,7 @@ func named(area: Area2D) -> String:
 func _unhandled_input(event: InputEvent) -> void:
 	if !self.get_rect().has_point(self.get_local_mouse_position()):
 		return
+
 	var mouse_event := event as InputEventMouseButton
 	if mouse_event and mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT:
 		prints("clicked me", self)

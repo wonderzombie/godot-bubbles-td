@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="TowerUpgradesList" format=3 uid="uid://ct2vytcjollhn"]
+
+[ext_resource type="Script" uid="uid://do0tjt0lss2ix" path="res://resources/tower_upgrades_list.gd" id="1_av1ud"]
+[ext_resource type="Script" uid="uid://bp0agepknailt" path="res://resources/tower_stats.gd" id="2_5dpot"]
+[ext_resource type="Script" uid="uid://dqlckflqusn6c" path="res://resources/tower_upgrade.gd" id="2_ofxnd"]
+
+[sub_resource type="Resource" id="Resource_5hwbq"]
+script = ExtResource("2_5dpot")
+hits_per_rock = 2
+metadata/_custom_type_script = "uid://bp0agepknailt"
+
+[sub_resource type="Resource" id="Resource_wlc83"]
+script = ExtResource("2_ofxnd")
+title = "hits+"
+stats = SubResource("Resource_5hwbq")
+cost = 12
+metadata/_custom_type_script = "uid://dqlckflqusn6c"
+
+[sub_resource type="Resource" id="Resource_caism"]
+script = ExtResource("2_5dpot")
+detection_radius = 40.0
+rock_range = 52.0
+metadata/_custom_type_script = "uid://bp0agepknailt"
+
+[sub_resource type="Resource" id="Resource_daipo"]
+script = ExtResource("2_ofxnd")
+title = "range+"
+stats = SubResource("Resource_caism")
+cost = 12
+metadata/_custom_type_script = "uid://dqlckflqusn6c"
+
+[sub_resource type="Resource" id="Resource_av1ud"]
+script = ExtResource("2_5dpot")
+attack_cooldown = 1.95
+metadata/_custom_type_script = "uid://bp0agepknailt"
+
+[sub_resource type="Resource" id="Resource_q0nqx"]
+script = ExtResource("2_ofxnd")
+title = "speed+"
+stats = SubResource("Resource_av1ud")
+cost = 15
+metadata/_custom_type_script = "uid://dqlckflqusn6c"
+
+[resource]
+script = ExtResource("1_av1ud")
+upgrade_one = SubResource("Resource_wlc83")
+upgrade_two = SubResource("Resource_q0nqx")
+upgrade_three = SubResource("Resource_daipo")
+metadata/_custom_type_script = "uid://do0tjt0lss2ix"

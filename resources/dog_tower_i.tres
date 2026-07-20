@@ -4,6 +4,8 @@
 
 [resource]
 script = ExtResource("1_5hwbq")
-attack_cooldown = 1.95
+detection_radius = 36.0
+attack_cooldown = 2.05
 hits_per_rock = 1
+rock_range = 48.0
 metadata/_custom_type_script = "uid://bp0agepknailt"
