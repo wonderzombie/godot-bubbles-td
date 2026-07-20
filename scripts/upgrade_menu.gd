@@ -12,7 +12,7 @@ func _ready() -> void:
 		if !row:
 			push_error("invalid row: %s" % it)
 			continue
-		
+
 		row.check_box.button_down.connect(
 			func(): on_button_down(row))
 
@@ -26,9 +26,3 @@ func upgrade_approved(clicked_row: UpgradeRow) -> void:
 
 func upgrade_rejected(clicked_row: UpgradeRow) -> void:
 	clicked_row.check_box.set_pressed_no_signal(false)
-
-
-	
-	
-	
-		

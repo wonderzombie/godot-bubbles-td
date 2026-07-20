@@ -7,11 +7,11 @@ var last_selected: DogButton
 func _unhandled_input(event) -> void:
 	if last_selected:
 		return
-	
-	
+
+
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var score = get_parent().score
-		
+
 		for it in get_children():
 			var button := it as DogButton
 			if not button:
@@ -31,4 +31,3 @@ func _clicked(it: DogButton) -> void:
 	prints("clicked", it)
 	self.last_selected = it
 	selected.emit(it)
-	
