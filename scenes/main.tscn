@@ -15,6 +15,14 @@
 atlas = ExtResource("3_ya4ey")
 region = Rect2(1, 183, 12, 12)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7yxg"]
+atlas = ExtResource("3_ya4ey")
+region = Rect2(846, 391, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_choun"]
+atlas = ExtResource("3_ya4ey")
+region = Rect2(1015, 482, 12, 12)
+
 [node name="Main" type="Node2D" unique_id=1512586351]
 script = ExtResource("1_85g3d")
 
@@ -84,27 +92,54 @@ modulate = Color(0, 1, 0.98333335, 1)
 position = Vector2(90, 282)
 texture = SubResource("AtlasTexture_o33de")
 
-[node name="Score" type="Label" parent="." unique_id=975444234]
-unique_name_in_owner = true
-offset_left = 126.0
+[node name="ScoreBox" type="HBoxContainer" parent="." unique_id=41044400]
+offset_left = 102.0
 offset_top = 6.0
-offset_right = 222.0
-offset_bottom = 29.0
+offset_right = 158.0
+offset_bottom = 18.0
+
+[node name="Icon" type="TextureRect" parent="ScoreBox" unique_id=1377038447]
+custom_minimum_size = Vector2(12, 12)
+custom_maximum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_a7yxg")
+metadata/_edit_lock_ = true
+
+[node name="Score" type="Label" parent="ScoreBox" unique_id=975444234]
+unique_name_in_owner = true
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 1)
 theme_override_fonts/font = ExtResource("6_a8y0u")
 theme_override_font_sizes/font_size = 10
-text = "SCORE: 0"
+text = "1999"
 vertical_alignment = 1
+metadata/_edit_lock_ = true
 
-[node name="Lives" type="Label" parent="." unique_id=147071282]
-unique_name_in_owner = true
+[node name="LivesBox" type="HBoxContainer" parent="." unique_id=576819839]
 offset_left = 6.0
 offset_top = 6.0
-offset_right = 102.0
-offset_bottom = 29.0
+offset_right = 62.0
+offset_bottom = 18.0
+
+[node name="Icon" type="TextureRect" parent="LivesBox" unique_id=357427149]
+custom_minimum_size = Vector2(12, 12)
+custom_maximum_size = Vector2(12, 12)
+layout_mode = 2
+size_flags_vertical = 4
+texture = SubResource("AtlasTexture_choun")
+metadata/_edit_lock_ = true
+
+[node name="Lives" type="Label" parent="LivesBox" unique_id=147071282]
+unique_name_in_owner = true
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 1)
 theme_override_fonts/font = ExtResource("6_a8y0u")
 theme_override_font_sizes/font_size = 10
-text = "LIVES: 0"
-vertical_alignment = 1
+text = "1337"
+metadata/_edit_lock_ = true
 
 [node name="Messages" type="Label" parent="." unique_id=1455398061]
 unique_name_in_owner = true

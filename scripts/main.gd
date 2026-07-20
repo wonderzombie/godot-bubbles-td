@@ -1,7 +1,7 @@
 extends Node2D
 
-@export var score := 0
-@export var lives := 60
+@export var start_score := 15
+@export var start_lives := 60
 
 var ghost_tower: DogButton
 var bubbles_spawned: int
@@ -9,10 +9,20 @@ var score_twn: Tween
 var lives_twn: Tween
 var waypoints: Array[Node]
 
+var score: int:
+	set(s):
+		score = s
+		%Score.set_deferred("text", "%d" % score)
+var lives: int:
+	set(l):
+		lives = l
+		%Lives.set_deferred("text", "%d" % lives)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	%Toolbar.selected.connect(selected_tower)
-	%Lives.text = "LIVES: %d" % lives
+	self.lives = start_lives
+	self.score = start_score
 	%Messages.text = ""
 
 	for node in get_tree().get_nodes_in_group(&"towers"):
@@ -138,11 +148,13 @@ func _maybe_place_tower(tower_pos):
 
 	%Map.add_child(new_tower)
 	new_tower.position = tower_pos
+	get_viewport().set_input_as_handled()
 	new_tower.clicked.connect(func(): _tower_clicked(new_tower))
 
 	%Toolbar.last_selected = null
 
 	ghost_tower.queue_free()
+
 
 func _tower_clicked(tower: TowerDog) -> void:
 	prints("tower clicked:", tower)
