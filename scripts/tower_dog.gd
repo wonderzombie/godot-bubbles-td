@@ -5,6 +5,8 @@ signal clicked
 @export var stats: TowerStats
 @export var upgrades: TowerUpgradesList
 
+var enabled_upgrades: Dictionary = {}
+
 var detection_radius: float:
 	get(): return stats.detection_radius
 var attack_cooldown: float:
@@ -40,7 +42,6 @@ func enemy_detected(intruder: Area2D) -> void:
 	prints("detected:", named(intruder))
 	if !self.current_target:
 		self.current_target = intruder
-
 
 func _process(_delta: float) -> void:
 	if !detection_area.has_overlapping_areas():
@@ -84,11 +85,13 @@ func try_throw_rock(target: Area2D) -> bool:
 func named(area: Area2D) -> String:
 	return area.get_parent().name
 
-func _unhandled_input(event: InputEvent) -> void:
-	if !self.get_rect().has_point(self.get_local_mouse_position()):
-		return
+func do_upgrade(title: String) -> void:
+	self.enabled_upgrades[title] = true
 
+func _unhandled_input(event: InputEvent) -> void:
 	var mouse_event := event as InputEventMouseButton
 	if mouse_event and mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT:
-		prints("clicked me", self)
-		self.clicked.emit()
+		if self.get_rect().has_point(self.get_local_mouse_position()):
+			prints("clicked me", self)
+			self.clicked.emit()
+			get_viewport().set_input_as_handled()

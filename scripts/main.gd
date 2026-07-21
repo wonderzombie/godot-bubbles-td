@@ -155,18 +155,23 @@ func _maybe_place_tower(tower_pos):
 
 	ghost_tower.queue_free()
 
-
 func _tower_clicked(tower: TowerDog) -> void:
 	prints("tower clicked:", tower)
 	%UpgradeMenu.position = tower.global_position + Vector2.UP * 8 + Vector2.RIGHT * 8
+
+	if !%UpgradeMenu.visible:
+		%UpgradeMenu.bind_to(tower)
+
 	%UpgradeMenu.visible = !%UpgradeMenu.visible
 
-func on_upgrade_clicked(upgrade_row: UpgradeRow) -> void:
+func on_upgrade_clicked(tower: TowerDog, upgrade_row: UpgradeRow) -> void:
 	prints("upgrade clicked", upgrade_row)
 	if score < upgrade_row.cost:
 		prints("and rejected")
 		%Messages.add_message("can't afford %d" % upgrade_row.cost, Color.RED)
-		%UpgradeMenu.upgrade_rejected(upgrade_row)
+		upgrade_row.mark_upgrade_rejected()
 
-	prints("and approved")
-	%UpgradeMenu.upgrade_approved(upgrade_row)
+	prints("and approved", upgrade_row.title)
+	upgrade_row.mark_upgrade_approved()
+	score -= upgrade_row.cost
+	tower.do_upgrade(upgrade_row.title)

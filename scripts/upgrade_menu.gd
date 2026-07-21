@@ -1,6 +1,6 @@
 extends Control
 
-signal clicked(row: UpgradeRow)
+signal clicked(tower: TowerDog, row: UpgradeRow)
 
 @onready var rows: Array = get_node(^"VBoxContainer").get_children()
 
@@ -12,16 +12,41 @@ func _ready() -> void:
 			push_error("invalid row: %s" % it)
 			continue
 
-		row.check_box.button_down.connect(
-			func(): on_button_down(row))
 
-func on_button_down(clicked_row: UpgradeRow) -> void:
-	self.clicked.emit(clicked_row)
+	self.visibility_changed.connect(on_visibility_changed)
 
-func upgrade_approved(clicked_row: UpgradeRow) -> void:
-	prints("disabled:", clicked_row)
-	clicked_row.check_box.set_pressed_no_signal(true)
-	clicked_row.check_box.disabled = true
+func on_button_down(tower: TowerDog, clicked_row: UpgradeRow) -> void:
+	self.clicked.emit(tower, clicked_row)
 
-func upgrade_rejected(clicked_row: UpgradeRow) -> void:
-	clicked_row.check_box.set_pressed_no_signal(false)
+func on_visibility_changed() -> void:
+	if !self.visible:
+		for it in rows:
+			var row := it as UpgradeRow
+			if !row:
+				push_error("invalid row: %s" % it)
+				continue
+
+			row.reset()
+
+			if row.check_box.button_down.is_connected(self.on_button_down):
+				row.check_box.button_down.disconnect(self.on_button_down)
+
+# TODO: avoid using TowerDog here. We need TowerDog so when we emit `clicked()` we can pass the tower to the handler.
+func bind_to(the_tower: TowerDog) -> void:
+	prints("binding to tower", the_tower)
+	for it in rows:
+		var row := it as UpgradeRow
+		if !row:
+			push_error("invalid row: %s" % it)
+			continue
+
+		var upgrade = the_tower.upgrades.get_nth(row.get_index())
+		if !upgrade:
+			push_error("no upgrade found for row %s" % row.get_index())
+			continue
+
+		var enabled = the_tower.enabled_upgrades.get(upgrade.title, false)
+		row.bind_to(upgrade, enabled)
+
+		row.check_box.button_down.connect(func() -> void:
+			self.on_button_down(the_tower, row))
