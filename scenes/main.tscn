@@ -40,7 +40,6 @@ unique_name_in_owner = true
 position = Vector2(6, 150)
 
 [node name="Waypoints" type="Node2D" parent="Map" unique_id=1077440899]
-unique_name_in_owner = true
 
 [node name="Start" type="Marker2D" parent="Map/Waypoints" unique_id=1575885150 groups=["waypoints"]]
 position = Vector2(-6, 150)

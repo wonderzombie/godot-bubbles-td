@@ -26,8 +26,5 @@ func mark_upgrade_approved() -> void:
 	self.check_box.set_pressed_no_signal(true)
 	self.check_box.disabled = true
 
-func mark_upgrade_rejected() -> void:
-	self.check_box.set_deferred("set_pressed_no_signal", false)
-
 func on_score_changed(new_score: int) -> void:
 	self.check_box.disabled = self.check_box.button_pressed || new_score < self.cost

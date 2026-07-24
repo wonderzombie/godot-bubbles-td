@@ -28,6 +28,8 @@ window/stretch/aspect="expand"
 
 towers=""
 waypoints=""
+rocks=""
+bubbles=""
 
 [input]
 
