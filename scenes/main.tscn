@@ -11,6 +11,14 @@
 [ext_resource type="Script" uid="uid://cfh0ri6c3dwse" path="res://scripts/messages.gd" id="9_muem4"]
 [ext_resource type="PackedScene" uid="uid://csnsupyjplf0x" path="res://scenes/upgrade_menu.tscn" id="10_choun"]
 
+[sub_resource type="Gradient" id="Gradient_choun"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_o33de"]
+gradient = SubResource("Gradient_choun")
+width = 96
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_o33de"]
 atlas = ExtResource("3_ya4ey")
 region = Rect2(1, 183, 12, 12)
@@ -65,30 +73,34 @@ zoom = Vector2(2, 2)
 
 [node name="Toolbar" type="Node2D" parent="." unique_id=903080080]
 unique_name_in_owner = true
+position = Vector2(19, 280)
 script = ExtResource("7_jkv2x")
 
+[node name="Background" type="Sprite2D" parent="Toolbar" unique_id=410759244]
+self_modulate = Color(0.18, 0.18, 0.18, 1)
+position = Vector2(26.5, 3.9999733)
+scale = Vector2(0.8020833, 19.999977)
+texture = SubResource("GradientTexture1D_o33de")
+
 [node name="DogButton1" type="Sprite2D" parent="Toolbar" unique_id=227257795]
-position = Vector2(18, 282)
+position = Vector2(-1, 1)
 texture = SubResource("AtlasTexture_o33de")
 script = ExtResource("8_jbj1t")
 tower_file = "uid://bbgcw17imuri8"
 
 [node name="DogButton2" type="Sprite2D" parent="Toolbar" unique_id=638502384]
-visible = false
 modulate = Color(0.9499998, 0, 1, 1)
-position = Vector2(42, 282)
+position = Vector2(17, 1)
 texture = SubResource("AtlasTexture_o33de")
 
 [node name="DogButton3" type="Sprite2D" parent="Toolbar" unique_id=1824316595]
-visible = false
 modulate = Color(1, 0.95, 0, 1)
-position = Vector2(66, 282)
+position = Vector2(35, 1)
 texture = SubResource("AtlasTexture_o33de")
 
 [node name="DogButton4" type="Sprite2D" parent="Toolbar" unique_id=2056833075]
-visible = false
 modulate = Color(0, 1, 0.98333335, 1)
-position = Vector2(90, 282)
+position = Vector2(53, 1)
 texture = SubResource("AtlasTexture_o33de")
 
 [node name="ScoreBox" type="HBoxContainer" parent="." unique_id=41044400]
