@@ -19,6 +19,7 @@ alignment = 2
 
 [node name="Cost" type="Label" parent="." unique_id=1369005056]
 layout_mode = 2
+size_flags_horizontal = 10
 theme_override_fonts/font = ExtResource("1_bdpfv")
 theme_override_font_sizes/font_size = 8
 text = "$10"

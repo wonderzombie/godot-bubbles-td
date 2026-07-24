@@ -2,7 +2,7 @@ class_name TowerDog extends Sprite2D
 
 signal clicked
 
-@export var stats: TowerStats
+@export var base_stats: TowerStats
 @export var upgrades: TowerUpgradesList
 
 var enabled_upgrades: Dictionary = {}
@@ -24,6 +24,8 @@ var current_target: Area2D
 var coll_shape: CollisionShape2D
 var timer: Timer
 
+@onready var stats: TowerStats = base_stats.duplicate()
+
 func _ready() -> void:
 	self.detection_area = get_node("Area2D")
 	self.detection_area.area_entered.connect(enemy_detected)
@@ -34,7 +36,7 @@ func _ready() -> void:
 		coll_shape.shape.radius = detection_radius
 
 	self.timer = Timer.new()
-	timer.wait_time = stats.attack_cooldown
+	timer.wait_time = self.attack_cooldown
 	timer.one_shot = true
 	self.add_child(timer)
 
@@ -86,7 +88,12 @@ func named(area: Area2D) -> String:
 	return area.get_parent().name
 
 func do_upgrade(title: String) -> void:
+	if self.enabled_upgrades.has(title):
+		prints("upgrade already applied:", title)
+		return
 	self.enabled_upgrades[title] = true
+	self.stats.apply(self.upgrades.get_by_title(title))
+	prints("applied upgrade:", title, "new stats:", self.stats)
 
 func _unhandled_input(event: InputEvent) -> void:
 	var mouse_event := event as InputEventMouseButton

@@ -10,3 +10,13 @@ func get_nth(index: int) -> TowerUpgrade:
 		1: return upgrade_two
 		2: return upgrade_three
 		_: return
+
+func get_by_title(title: String) -> TowerStats:
+	if upgrade_one.title == title:
+		return upgrade_one.stats
+	if upgrade_two.title == title:
+		return upgrade_two.stats
+	if upgrade_three.title == title:
+		return upgrade_three.stats
+
+	return TowerStats.empty()

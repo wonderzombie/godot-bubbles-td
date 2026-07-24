@@ -9,6 +9,10 @@ var title: String:
 @onready var check_box: CheckBox = get_node(^"CheckBox")
 @onready var cost_label: Label = get_node(^"Cost")
 
+
+func _ready() -> void:
+	GameService.score_changed.connect(on_score_changed)
+
 func bind_to(upgrade: TowerUpgrade, enabled: bool) -> void:
 	prints("binding row to upgrade", upgrade.title, "enabled:", enabled)
 	self.check_box.set_deferred("text", upgrade.title)
@@ -23,10 +27,7 @@ func mark_upgrade_approved() -> void:
 	self.check_box.disabled = true
 
 func mark_upgrade_rejected() -> void:
-	self.check_box.set_pressed_no_signal(false)
+	self.check_box.set_deferred("set_pressed_no_signal", false)
 
-func reset() -> void:
-	self.check_box.set_pressed_no_signal(false)
-	self.check_box.text = ""
-	self.cost_label.text = ""
-	self.check_box.disabled = false
+func on_score_changed(new_score: int) -> void:
+	self.check_box.disabled = self.check_box.button_pressed || new_score < self.cost

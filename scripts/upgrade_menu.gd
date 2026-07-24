@@ -1,6 +1,6 @@
-extends Control
+class_name UpgradeMenu extends Control
 
-signal clicked(tower: TowerDog, row: UpgradeRow)
+signal clicked(row: UpgradeRow)
 
 @onready var rows: Array = get_node(^"VBoxContainer").get_children()
 
@@ -11,27 +11,26 @@ func _ready() -> void:
 		if !row:
 			push_error("invalid row: %s" % it)
 			continue
+		row.check_box.button_down.connect(self.on_button_down.bind(row))
 
-
+	self.visible = false
 	self.visibility_changed.connect(on_visibility_changed)
 
-func on_button_down(tower: TowerDog, clicked_row: UpgradeRow) -> void:
-	self.clicked.emit(tower, clicked_row)
+func on_button_down(clicked_row: UpgradeRow) -> void:
+	self.clicked.emit(clicked_row)
 
 func on_visibility_changed() -> void:
-	if !self.visible:
-		for it in rows:
-			var row := it as UpgradeRow
-			if !row:
-				push_error("invalid row: %s" % it)
-				continue
+	for it in rows:
+		var row := it as UpgradeRow
+		if !row:
+			push_error("invalid row: %s" % it)
+			continue
 
-			row.reset()
+		if !row.check_box.pressed:
+			row.on_score_changed(GameService.score)
 
-			if row.check_box.button_down.is_connected(self.on_button_down):
-				row.check_box.button_down.disconnect(self.on_button_down)
-
-# TODO: avoid using TowerDog here. We need TowerDog so when we emit `clicked()` we can pass the tower to the handler.
+# TODO: avoid using TowerDog here. We need TowerDog so when we emit `clicked()` we can pass the
+# tower to the handler.
 func bind_to(the_tower: TowerDog) -> void:
 	prints("binding to tower", the_tower)
 	for it in rows:
@@ -47,6 +46,3 @@ func bind_to(the_tower: TowerDog) -> void:
 
 		var enabled = the_tower.enabled_upgrades.get(upgrade.title, false)
 		row.bind_to(upgrade, enabled)
-
-		row.check_box.button_down.connect(func() -> void:
-			self.on_button_down(the_tower, row))

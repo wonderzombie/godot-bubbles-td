@@ -19,7 +19,7 @@ radius = 36.0
 [node name="DogI" type="Sprite2D" unique_id=1369491177 groups=["towers"]]
 texture = SubResource("AtlasTexture_o33de")
 script = ExtResource("2_x5wxm")
-stats = ExtResource("3_x5wxm")
+base_stats = ExtResource("3_x5wxm")
 upgrades = ExtResource("4_wlc83")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=835035222]
