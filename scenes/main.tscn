@@ -8,6 +8,7 @@
 [ext_resource type="FontFile" uid="uid://bw15vudvtopgt" path="res://assets/pcsenior.ttf" id="6_a8y0u"]
 [ext_resource type="Script" uid="uid://diw18gbqqwts6" path="res://scripts/toolbar.gd" id="7_jkv2x"]
 [ext_resource type="Script" uid="uid://cblhggo6icldx" path="res://scripts/dog_button_1.gd" id="8_jbj1t"]
+[ext_resource type="Theme" uid="uid://crd5wtwf6s18e" path="res://resources/ui_theme.tres" id="8_ya4ey"]
 [ext_resource type="Script" uid="uid://cfh0ri6c3dwse" path="res://scripts/messages.gd" id="9_muem4"]
 [ext_resource type="PackedScene" uid="uid://csnsupyjplf0x" path="res://scenes/upgrade_menu.tscn" id="10_choun"]
 
@@ -83,25 +84,77 @@ scale = Vector2(0.8020833, 19.999977)
 texture = SubResource("GradientTexture1D_o33de")
 
 [node name="DogButton1" type="Sprite2D" parent="Toolbar" unique_id=227257795]
+self_modulate = Color(1, 1, 1, 0.70000005)
 position = Vector2(-1, 1)
 texture = SubResource("AtlasTexture_o33de")
 script = ExtResource("8_jbj1t")
 tower_file = "uid://bbgcw17imuri8"
 
+[node name="CostLabel1" type="Label" parent="Toolbar" unique_id=2037342909]
+offset_left = -6.0
+offset_top = 8.0
+offset_right = 4.0
+offset_bottom = 14.0
+theme = ExtResource("8_ya4ey")
+theme_type_variation = &"TowerCostLabel"
+theme_override_font_sizes/font_size = 5
+text = "15"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="DogButton2" type="Sprite2D" parent="Toolbar" unique_id=638502384]
-modulate = Color(0.9499998, 0, 1, 1)
+visible = false
+self_modulate = Color(0.9490196, 0, 1, 1)
 position = Vector2(17, 1)
 texture = SubResource("AtlasTexture_o33de")
 
+[node name="CostLabel2" type="Label" parent="Toolbar" unique_id=2142530776]
+visible = false
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 22.0
+offset_bottom = 14.0
+theme = ExtResource("8_ya4ey")
+theme_override_font_sizes/font_size = 5
+text = "20"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="DogButton3" type="Sprite2D" parent="Toolbar" unique_id=1824316595]
-modulate = Color(1, 0.95, 0, 1)
+visible = false
+self_modulate = Color(1, 0.9490196, 0, 1)
 position = Vector2(35, 1)
 texture = SubResource("AtlasTexture_o33de")
 
+[node name="CostLabel3" type="Label" parent="Toolbar" unique_id=292755551]
+visible = false
+offset_left = 30.0
+offset_top = 8.0
+offset_right = 40.0
+offset_bottom = 14.0
+theme = ExtResource("8_ya4ey")
+theme_override_font_sizes/font_size = 5
+text = "18"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="DogButton4" type="Sprite2D" parent="Toolbar" unique_id=2056833075]
-modulate = Color(0, 1, 0.98333335, 1)
+visible = false
+self_modulate = Color(0, 1, 0.9843137, 1)
 position = Vector2(53, 1)
 texture = SubResource("AtlasTexture_o33de")
+
+[node name="CostLabel4" type="Label" parent="Toolbar" unique_id=1906746924]
+visible = false
+offset_left = 47.0
+offset_top = 8.0
+offset_right = 59.0
+offset_bottom = 14.0
+theme = ExtResource("8_ya4ey")
+theme_override_font_sizes/font_size = 5
+text = "25"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ScoreBox" type="HBoxContainer" parent="." unique_id=41044400]
 offset_left = 102.0

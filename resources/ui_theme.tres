@@ -14,3 +14,4 @@ CheckBox/constants/check_v_offset = 2
 CheckBox/icons/checked = ExtResource("1_qosx5")
 CheckBox/icons/checked_disabled = ExtResource("1_qosx5")
 CheckBox/icons/unchecked = ExtResource("2_m7jai")
+Label/fonts/font = ExtResource("1_cviax")
